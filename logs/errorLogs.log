@@ -1,0 +1,16 @@
+20250323	10:34:37	error	eb7609f3-4b83-4e2c-90a7-4dab185b9da1		Operation `employees.find()` buffering timed out after 10000ms in employees.controller.js
+20250323	10:35:11	error	a580f6d5-78bd-4f54-9153-f954002278f7		Operation `employees.find()` buffering timed out after 10000ms in employees.controller.js
+20250323	10:36:28	error	4162b902-2eeb-4cd2-8548-876c218702f1		Operation `employees.find()` buffering timed out after 10000ms in employees.controller.js
+20250323	10:52:07	error	46609664-b417-41a5-b04e-38595ecbacdc		res is not defined in employees.controller.js
+20250323	10:52:22	error	75419b76-2227-41b4-a57d-b4bcb6ffd144		res is not defined in employees.controller.js
+20250323	11:01:03	error	5a10721d-e647-4c00-8687-c26544143e28		Cannot read properties of undefined (reading 'toString') in employees.controller.js
+20250323	11:01:46	error	12ad58d0-1713-4ce4-949f-8f25d7d3ff4f		Cannot read properties of undefined (reading 'toString') in employees.controller.js
+20250323	11:03:18	error	760e632f-7512-48a1-8940-882ece872631		Cannot read properties of undefined (reading 'match') in employees.controller.js
+20250323	11:25:16	error	c3e0dc18-740a-4e18-a314-d2372692ae51		Cannot access 'users' before initialization in authentication.controller.js
+20250323	11:25:35	error	918b21d5-2267-414b-9504-99fc4418f291		Cannot access 'users' before initialization in authentication.controller.js
+20250323	11:26:22	error	4d88716a-d0bb-4b63-82ed-ce640c4bc80e		Cannot access 'users' before initialization in authentication.controller.js
+20250323	11:26:24	error	ce40e0f4-b3fb-463b-bcd6-4c73cf9e0160		Cannot access 'users' before initialization in authentication.controller.js
+20250323	11:26:48	error	be8c4a84-b8b3-4208-ac9b-574da8419fac		Cannot access 'users' before initialization in authentication.controller.js
+20250323	11:28:36	error	d91cce10-34bc-4e23-b07f-dda0efc8f560		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js
+20250323	11:29:13	error	415684d2-3938-4c40-83bf-fec944466448		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js
+20250323	11:29:19	error	95fda28f-e799-4301-ad84-7194ea9dddbb		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js

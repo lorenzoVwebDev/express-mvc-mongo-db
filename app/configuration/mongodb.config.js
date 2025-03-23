@@ -1,16 +1,14 @@
-const mongoose = require('mongoose');
 require('dotenv').config()
-const { errorCreator } = require('../configuration/commonFunctions.js')
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_DB_URI, {
-      useUnifiedTpolgy: true,
-      useNewUrlParse: true
-    });
+const mongoose = require('mongoose');
 
-  } catch (error) {
-    console.error(error)
-  }
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect(process.env.MONGO_DB_URI);
+
+  mongoose.connection.on('open', () => {
+    console.log('Connected to Mongo')
+  })
 }
 
-module.exports = connectDB
+module.exports = main

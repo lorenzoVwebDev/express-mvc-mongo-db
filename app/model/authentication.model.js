@@ -5,6 +5,7 @@ const striptags = require('striptags')
 const dayjs = require('dayjs');
 require('dotenv').config();
 //models
+const usersDB = require('./mongo.schemas/mongo.schema.users.js')
 const { mysqlQuery } = require('../configuration/mysqldb.config.js')
 //regex
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -13,11 +14,7 @@ const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\
 //----------------------functions---------------
 
 const modelSignUp = async (newUser) => {
-  const users = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['users'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  }) 
+  const users = await usersDB.find()
 
   for (const value of users) {
     if (value.username == newUser.username || value.email == newUser.email) {
@@ -29,24 +26,11 @@ const modelSignUp = async (newUser) => {
     
   newUser.password = hashed
   newUser.datestamp = dayjs().add(30, 'day').unix();
+  newUser.roles = {
+    User: 2001
+  }
 
-  const insert = await new Promise((resolve, reject) => {
-    mysqlQuery('INSERT INTO ?? (username, email, password, datestamp) VALUES (?, ?, ?, ?)', ['users', newUser.username, newUser.email, newUser.password, newUser.datestamp], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
-
-  const id = await new Promise((resolve, reject) => {
-    mysqlQuery('SELECT id FROM ?? WHERE email = ?', ['users', newUser.email], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
-
-  const role = await new Promise((resolve, reject) => {
-    mysqlQuery('INSERT INTO roles (??, ??) VALUES (?, ?)', ['role_code', 'user_id', process.env.USER_ID, id[0].id], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const result = await usersDB.create(newUser);
     
   return [200, {'response':'user-created'}]
 }

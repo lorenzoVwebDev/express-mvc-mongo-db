@@ -58,7 +58,7 @@ const updateEmployee = async (req, res, next) => {
   try {
     let {id, firstname, lastname } = req.body;
 
-    if (!id.toString().match(/^\d*$/)) res.status(401).json({'response':'invalid-id'});
+    if (!id.match(/^[a-zA-Z0-9]+$/)) return res.status(401).json({'response':'invalid-id'});
 
     firstname = striptags(firstname);
     lastname = striptags(lastname);
@@ -91,29 +91,6 @@ const deleteEmployee = async (req, res, next) => {
 
     return res.status(result[0]).json(result[1]);
 
-/*     const employees = await new Promise((resolve, reject) => {
-      mysqlQuery('SELECT * FROM ??', ['employees'], resolve, reject)
-    }).then(data => data).catch(error => {
-      throw new Error(error)
-    })
-
-    const employee = employees.filter(employee => employee.id == id)[0]
-
-    if (!employee) res.status(401).json({'response':'not-found'})
-
-    const deleted = await new Promise((resolve, reject) => {
-      mysqlQuery('DELETE FROM ?? WHERE id = ?', ['employees', employee.id], resolve, reject)
-    }).then(data => data).catch(error => {
-      throw new Error(error)
-    })
-
-    const sorted = await new Promise((resolve, reject) => {
-      mysqlQuery('UPDATE ?? SET id = id - 1 WHERE id > ?', ['employees', employee.id], resolve, reject)
-    }).then(data => data).catch(error => {
-      throw new Error(error)
-    })
-
-    if (deleted) res.status(200).json({'response': `employee${employee.id}-deleted`}) */
   } catch (err) {
     res.status(500).json({'response': 'server-error'})
     next(errorCreator(err.message, 'error', __filename))

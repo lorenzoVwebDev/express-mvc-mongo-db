@@ -2,27 +2,19 @@ const { v4:uuidv4 } = require('uuid')
 const { mysqlQuery, results } = require('../configuration/mysqldb.config.js');
 const { errorCreator } = require('../configuration/commonFunctions.js')
 const striptags = require('striptags')
+const Employees = require('./mongo.schemas/mongo.schema.employees.js')
 
 const modelgetAllEmployees = async () => {
-  const employees = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['employees'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const employees = await Employees.find()
   
   return [200, employees]
 }
 
 const modelgetEmployee = async (id) => {
-  if (!id.toString().match(/^\d*$/)) res.status(400).json({'response':'bad-request'});
- 
-  const employees = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['employees'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  }) 
 
-  let employee = employees.filter(employee => id == employee.id)[0]
+  if (!id.match(/^[a-zA-Z0-9]+$/)) return [400, {'response':'bad-request'}];
+
+  const employee = await Employees.findOne({ _id: id}).exec()
 
   if (!employee) return [401, {'response': 'not-found'}];
 
@@ -30,46 +22,32 @@ const modelgetEmployee = async (id) => {
 }
 
 const modelcreateNewEmployee = async (firstname, lastname) => {
-  
-  const employees = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['employees'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  }) 
 
   const newEmployee = {
-    id: employees.length > 0 ? employees[employees.length - 1]?.id + 1 : 1,
     firstname,
     lastname
   }
   
-  await new Promise((resolve, reject) => {
-    mysqlQuery('insert into ?? values (?, ?, ?)', ['employees', newEmployee.id, newEmployee.firstname, newEmployee.lastname], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const result = await Employees.create(newEmployee);
+
+  if (!result) throw 'db error';
 
   return [200, newEmployee]
 }
 
 const modelupdateEmployee = async (id, firstname, lastname) => {
-  const employees = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['employees'], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
-  const employee = employees.find(element => element.id === id);
+  if (!id.match(/^[a-zA-Z0-9]+$/)) return [400, {'response':'bad-request'}];
+
+  const employee = await Employees.findOne({ _id: id}).exec()
 
   if (!employee) return [401 , {'response':'id-not-found'}]
   
   employee.firstname = firstname;
   employee.lastname = lastname;
 
-  await new Promise((resolve, reject) => {
-    mysqlQuery('UPDATE ?? SET firstname = ?, lastname = ? WHERE id = ?', ['employees', employee.firstname, employee.lastname, employee.id], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const result = await employee.save();
+
+  if (!result) throw 'db error';
   
   return [200, {'response': `updated-employee${id}`}]
 }

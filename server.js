@@ -8,14 +8,16 @@ const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const corsOptions = require('./app/configuration/corsOptions.js');
+const main = require('./app/configuration/mongodb.config.js')
 require('dotenv').config()
+//database connection
+main().catch(err => console.dir(err))
+
 //--------------- middlewares imports ------------------
 const {requestLogger, errorLogger} = require('./app/middleware/logEvents.js');
-const connectDB = require('./app/configuration/mongodb.config.js');
 const errorHandler = require('./app/middleware/errorHandler.js');
 //------------------------------------------------------
 const PORT = process.env.PORT || 3000;
-connectDB()
 //----------------middlewares---------------------------
 app.use(requestLogger);
 app.use(express.json());

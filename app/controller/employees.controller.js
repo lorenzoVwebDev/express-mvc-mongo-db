@@ -4,7 +4,6 @@ const { errorCreator } = require('../configuration/commonFunctions.js')
 const striptags = require('striptags')
 const model = require('../model/employees.model.js')
 
-
 const getAllEmployees = async (req, res, next) => {
   try {
     const result = await model.modelgetAllEmployees()
@@ -83,9 +82,8 @@ const deleteEmployee = async (req, res, next) => {
     const urlArray = req.originalUrl.split('/')
     let id = urlArray[urlArray.length-1];
   
-    if (!id.match(/^\d*$/)) res.status(400).json({'response':'invalid-id'});
-  
-    id = parseInt(id)
+    if (!id.match(/^[a-zA-Z0-9]+$/)) res.status(400).json({'response':'invalid-id'});
+
     
     const result = await model.modeldeleteEmployee(id)
 
@@ -95,9 +93,6 @@ const deleteEmployee = async (req, res, next) => {
     res.status(500).json({'response': 'server-error'})
     next(errorCreator(err.message, 'error', __filename))
   }
-
-
-
 }
 
 module.exports = { getAllEmployees, createNewEmployee, updateEmployee, deleteEmployee, getEmployee }

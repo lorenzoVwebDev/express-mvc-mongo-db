@@ -36,11 +36,7 @@ const modelSignUp = async (newUser) => {
 }
 
 const modelSignIn = async (username, password) => {
-  const users = await new Promise((resolve, reject) => {
-    mysqlQuery('select * from ??', ['users'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  }) 
+  const users = await usersDB.find()
 
   const foundUser = users.find(user => {
     if (user.username == username || user.email == username) {
@@ -59,22 +55,6 @@ const modelSignIn = async (username, password) => {
     const match = await bcrypt.compare(password, foundUser.password);
 
     if (match) {
-
-      const rolesArray = await new Promise((resolve, reject) => {
-        mysqlQuery('select role_code, id from roles left join users on roles.user_id = users.id where user_id = ?;', [foundUser.id], resolve, reject);
-      }).then(data => data).catch(error => {
-        throw new Error(error)
-      })
-
-      for (let I=0;I<rolesArray.length;I++) {
-        if (rolesArray[I].role_code) {
-          const i = (I+1).toString();
-          foundUser.roles = {
-            ...foundUser.roles, 
-            [i]: rolesArray[I].role_code
-          };
-        } 
-      }
 
       const roles = Object.values(foundUser.roles);
 
@@ -97,21 +77,11 @@ const modelSignIn = async (username, password) => {
       foundUser.validattempt = currentUnix;
       foundUser.lastattempt = currentUnix;
       foundUser.attempts = 0;
-      foundUser.refresh_token = refreshToken;
+      foundUser.refreshToken = refreshToken;
 
-      const update = await new Promise((resolve, reject) => {
-        mysqlQuery("UPDATE users SET refresh_token = ?, attempts = ?, lastattempt = ?, validattempt = ? WHERE id = ?", [foundUser.refresh_token, foundUser.attempts, foundUser.lastattempt, foundUser.validattempt, foundUser.id], resolve, reject)
-      }).then(data => data).catch(error => {
-        throw new Error(error)
-      })
-//add the secure: true flag to .cookie to allow the cookies to travel only over https protocols
-/*       return res.status(200)
-        .cookie('refreshToken', refreshToken, {
-          httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000
-        })
-        .json({"accessToken":accessToken}) */
+      const update = foundUser.save()
 
-        return [200, accessToken, refreshToken];
+      if (update) return [200, accessToken, refreshToken];
     } else {
       foundUser.lastattempt = currentUnix;
       if (currentUnixMinus5>=lastattempt) {
@@ -128,24 +98,17 @@ const modelSignIn = async (username, password) => {
 }
 
 const modelLogOut = async (refreshToken) => {
-  const users = await new Promise((resolve, reject) => {
-    mysqlQuery("SELECT * from ??", ['users'], resolve, reject);
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  });
+  const users = await usersDB.find()
 
-  const user = users.find(user => user.refresh_token == refreshToken);
+  const user = users.find(user => user.refreshToken == refreshToken);
 
   if (user) {
+
     user.refreshToken = null;
 
-    const update = await new Promise((resolve, reject) => {
-      mysqlQuery("UPDATE users SET refresh_token = ? WHERE id = ?", [user.refreshToken, user.id], resolve, reject)
-    }).then(data => data).catch(error => {
-      throw new Error(error)
-    })
+    const logout = await user.save()
 
-    return [200, {'response':'log-out'}]
+    if (logout) return [200, {'response':'log-out'}]
 
   } else {
     return [200, {'response':'log-out'}]
@@ -153,11 +116,7 @@ const modelLogOut = async (refreshToken) => {
 }
 
 const modelChangePwd = async (credentials) => {
-  const users = await new Promise((resolve, reject) => {
-    mysqlQuery("SELECT * FROM ??", ['users'], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const users = await usersDB.find()
 
   const user = users.find(user =>  {
     if ((user.username == credentials.username) || (user.email == credentials.username)) {
@@ -168,6 +127,7 @@ const modelChangePwd = async (credentials) => {
   if (!user) return [401, {'response':'not-found'}]
   const match = await bcrypt.compare(credentials.oldPassword, user.password);
   if (match) {
+    console.log('works')
     newPassword = passwordRegex.test(striptags(credentials.newPassword)) ? credentials.newPassword : null;
 
     if (!newPassword) return [400, {'response': 'invalid-password'}];
@@ -177,13 +137,9 @@ const modelChangePwd = async (credentials) => {
     user.datestamp = dayjs().add(30, 'day').unix();
     user.attempts = 0;
 
-    const update = await new Promise((resolve, reject) => {
-      mysqlQuery("UPDATE users SET password = ?, datestamp = ?, attempts = ? WHERE id = ?", [user.password, user.datestamp, user.attempts, user.id], resolve, reject)
-    }).then(data => data).catch(error => {
-      throw new Error(error)
-    })
+    const update = user.save();
 
-    return [200, {'response': 'updated-password'}]
+    if (update) return [200, {'response': 'updated-password'}]
 
   } else {
     return [401, {'response':'wrong-password'}]

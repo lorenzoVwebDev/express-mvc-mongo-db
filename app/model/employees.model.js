@@ -53,27 +53,12 @@ const modelupdateEmployee = async (id, firstname, lastname) => {
 }
 
 const modeldeleteEmployee = async (id) => {
-  const employees = await new Promise((resolve, reject) => {
-    mysqlQuery('SELECT * FROM ??', ['employees'], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
 
-  const employee = employees.filter(employee => employee.id == id)[0]
+  const employee = await Employees.findOne({ _id: id}).exec();
 
   if (!employee) return [401, {'response':'not-found'}]
 
-  const deleted = await new Promise((resolve, reject) => {
-    mysqlQuery('DELETE FROM ?? WHERE id = ?', ['employees', employee.id], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
-
-  const sorted = await new Promise((resolve, reject) => {
-    mysqlQuery('UPDATE ?? SET id = id - 1 WHERE id > ?', ['employees', employee.id], resolve, reject)
-  }).then(data => data).catch(error => {
-    throw new Error(error)
-  })
+  const deleted = await employee.deleteOne({ _id: id }); 
 
   if (deleted) return [200, {'response': `employee${employee.id}-deleted`}];
 }

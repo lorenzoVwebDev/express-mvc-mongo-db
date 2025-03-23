@@ -14,3 +14,21 @@
 20250323	11:28:36	error	d91cce10-34bc-4e23-b07f-dda0efc8f560		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js
 20250323	11:29:13	error	415684d2-3938-4c40-83bf-fec944466448		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js
 20250323	11:29:19	error	95fda28f-e799-4301-ad84-7194ea9dddbb		employees validation failed: lastname: Path `lastname` is required., firstname: Path `firstname` is required. in authentication.controller.js
+20250323	19:00:47	error	6188a34a-c2bb-4b30-92dd-c8410e16759d		Cast to ObjectId failed for value "67" (type number) at path "_id" for model "employees" in employees.controller.js
+20250323	19:05:32	error	837dc323-dce5-4dac-9d2c-ec134d0d27bf		Cast to ObjectId failed for value "67" (type number) at path "_id" for model "employees" in employees.controller.js
+20250323	19:05:41	error	0a7ff23b-f8f5-426c-a375-22d7f7a2e980		Cast to ObjectId failed for value "67" (type number) at path "_id" for model "employees" in employees.controller.js
+20250323	19:15:11	error	57fe2941-e9e9-4323-a97d-45fdcfc2b13b		Query.prototype.find() no longer accepts a callback in authentication.controller.js
+20250323	19:22:54	error	95488a71-fac4-45d8-9376-26f83ef922df		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e0517a2b9002d29961077d' in authentication.controller.js
+20250323	19:23:56	error	39d370df-d74e-451f-9554-7aaea9af33f0		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:29:21	error	04365669-a47a-40b2-bc2b-d8e200f0dc31		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:30:40	error	529fae4d-fbce-4f49-9298-4b2b5ecbba93		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:31:18	error	7470a1f2-7169-4a75-813b-975117210c64		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:31:36	error	e1aad7d2-4e68-4b9f-a597-9fa3d9111a90		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:32:00	error	efd5a271-69f1-4312-8943-42c5bdcd657c		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:32:24	error	c899ad13-ac4c-420b-85eb-282a4d6edf92		Error: ER_TRUNCATED_WRONG_VALUE: Truncated incorrect DOUBLE value: '67e051b7f1867ad42597e78b' in authentication.controller.js
+20250323	19:37:10	error	32984feb-ab5c-4884-8e2b-e269dd8fe375		Cannot read properties of undefined (reading '0') in authentication.controller.js
+20250323	19:38:05	error	f06277af-476b-433d-96b1-7a3713b7e4c1		Cannot read properties of undefined (reading '0') in authentication.controller.js
+20250323	19:38:29	error	8c8c93de-d4a9-4a0c-86d0-b71f8897c1c8		Cannot read properties of undefined (reading '0') in authentication.controller.js
+20250323	19:38:46	error	797d9339-0804-436b-af0c-01490af848b2		Cannot read properties of undefined (reading '0') in authentication.controller.js
+20250323	19:39:15	error	e8be581c-0dae-4c89-b4c5-2fa425d7ca6d		Cannot read properties of undefined (reading '0') in authentication.controller.js
+20250323	19:40:15	error	f9836392-619b-4bb2-99c3-febdfe4e6006		Cannot read properties of undefined (reading '0') in authentication.controller.js

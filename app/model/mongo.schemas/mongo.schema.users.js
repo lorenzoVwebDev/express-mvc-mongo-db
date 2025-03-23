@@ -16,7 +16,7 @@ const userSchema = new Schema({
     type: String,
     required: true
   }, 
-  refreshToken: String,
+  refreshToken: {type: String, default: null},
   roles: {
     User: {
       type: Number,
@@ -25,10 +25,11 @@ const userSchema = new Schema({
     Editor: Number,
     Admin: Number
   }, 
-  datestamp: {type: Number, populate: dayjs().add(30, 'day').unix()
+  datestamp: {type: Number, default: dayjs().add(30, 'day').unix()
   },
-  lastattempt: {type: Number, min: dayjs().unix()},
-  validattempt: {type: Number, min: dayjs().unix()}
+  attempts: {type: Number, default: 0, max: 3, min: 0},
+  lastattempt: {type: Number, default: dayjs().unix()},
+  validattempt: {type: Number, default: dayjs().unix()}
 });
 
-module.exports = mongoose.model('usersDB', userSchema)
+module.exports = mongoose.model('users', userSchema)

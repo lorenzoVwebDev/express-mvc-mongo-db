@@ -1,5 +1,5 @@
 # "mvc-mongo-db"
-  A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees mysql table. Sign Up, sign in, log out and change password mvc for a complete authorization app. Enhanced with jwt delivering and verification. User roles definition in sign up and roles verification with verifyRoles.js middleware. Roles definition into tokens.
+  A node web server based on MVC that serves log files and set the allowed origins/headers for CORS. It includes the error handling middleware at the end of the chain. It also performs api crud operations on the employees with a MongoDB database. Sign Up, sign in, log out and change password mvc for a complete authorization app with a MongoDB database. Enhanced with jwt delivering and verification. User roles definition in sign up and roles verification with verifyRoles.js middleware. Roles definition into tokens.
 ## Features
 - mvc structure
 - Routing 
@@ -9,7 +9,7 @@
 - express error handling and error logs 
 - rest api routing
 - crud operations on the employees mysql tables 
-- mysqldb.config.js to dynamically creates queries over the whole backend framework
+- MongoDB schemas definition and crud operations in the model section
 - model authentication and employees to better performs data extraction and manipulation
 - jwt issuing 
 - jwt middleware verification
